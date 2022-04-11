@@ -24,6 +24,16 @@ jobs:
       - run:
           name: build-project
           command: npm run generate:gh-pages
+      - store_artifacts:
+          path: test-results.xml
+          destination: tests
+      - store_test_results:
+          path: test-results.xml
+  deploy-to-github-pages:
+    working_directory: ~/project
+    docker:
+      - image: circleci/node:14.17.4
+    steps:
       - run:
           name: Install and configure dependencies
           command: |
@@ -33,8 +43,16 @@ jobs:
       - run:
           name: Deploy docs to gh-pages branch
           command: './node_modules/.bin/gh-pages --dotfiles --message "[skip ci] Updates" -d dist'
-      - store_artifacts:
-          path: test-results.xml
-          destination: tests
-      - store_test_results:
-          path: test-results.xml
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: main
+      - deploy-to-github-pages:
+          filters:
+            branches:
+              only: main

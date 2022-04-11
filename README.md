@@ -1,5 +1,7 @@
 # my-nuxt-app
 
+[![CircleCI](https://circleci.com/gh/archimeid/my-nuxt-app/tree/main.svg?style=svg)](https://circleci.com/gh/archimeid/my-nuxt-app/tree/main)
+
 ## Build Setup
 
 ```bash
